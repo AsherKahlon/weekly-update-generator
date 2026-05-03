@@ -171,7 +171,14 @@ ${signOff}`,
   }
 })
 
-const PORT = 3001
+// ── Serve React frontend in production ──
+const DIST = join(__dirname, 'dist')
+app.use(express.static(DIST))
+app.get('*', (req, res) => {
+  res.sendFile(join(DIST, 'index.html'))
+})
+
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`✅ Server running at http://localhost:${PORT}`)
   if (!process.env.ANTHROPIC_API_KEY) {
